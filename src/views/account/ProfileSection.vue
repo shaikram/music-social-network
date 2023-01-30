@@ -1,3 +1,13 @@
+<script setup>
+ import ProfileInfoSection from '../../components/partials/profile/ProfileInfoSection.vue'
+ import ProfileAboutSection from '../../components/partials/profile/ProfileAboutSection.vue'
+ import RouterLinkButton from '../../components/global/RouterLinkButton.vue'
+ import SongsSection from '../../components/partials/profile/SongsSection.vue'
+ import YoutubeVideosSection from '../../components/partials/profile/YoutubeVideosSection.vue'
+ import PostSection from '../../components/partials/profile/PostSection.vue'
+
+</script>
+
 <template>
     <div class="container max-w-4xl mx-auto flex">
         <div class="w-1/3">
@@ -18,34 +28,19 @@
                     </span>
                 </div>
                 <div class="w-1/2 mt-2">
-                    <router-link
-                        class="
-                            float-right
-                            bg-transparent
-                            text-gray-900
-                            font-semibold
-                            hover:text-white
-                            py-2
-                            px-4
-                            border
-                            hover:border-transparent
-                            rounded
-                            hover:bg-green-500
-                            border-green-500
-                        "
-                        to=""
-                    >
-                    Edit Profile
-                    </router-link>
-                </div>
+                    <RouterLinkButton
+                        btnText="Edit Profile"
+                        color="green"
+                        url="/account/edit-profile"
+                    />
+            </div>
             </div>
             <ProfileInfoSection />
             <ProfileAboutSection />
         </div>
     </div>
+    <SongsSection />
+    <YoutubeVideosSection />
+    <PostSection />
 </template>
 
-<script setup>
- import ProfileInfoSection from '../../components/partials/profile/ProfileInfoSection.vue'
- import ProfileAboutSection from '../../components/partials/profile/ProfileAboutSection.vue'
-</script>
