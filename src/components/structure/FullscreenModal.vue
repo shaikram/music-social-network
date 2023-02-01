@@ -44,6 +44,13 @@ let open = ref(false)
                 <p class="text-2xl text-center text-white font-bold">Menu</p>
                     <RouterLinkButton
                         @click="open = !open"
+                        class="w-full text-gray-100 text-center text-lg mt-2"
+                        btnText="Profile"
+                        color="green"
+                        url="/account/profile"
+                    />
+                    <RouterLinkButton
+                        @click="open = !open"
                         class="w-full text-gray-100 text-center text-lg mt-4"
                         btnText="Close"
                         color="red"
