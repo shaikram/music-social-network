@@ -51,6 +51,13 @@ let open = ref(false)
                     />
                     <RouterLinkButton
                         @click="open = !open"
+                        class="w-full text-gray-100 text-center text-lg mt-2"
+                        btnText="Post"
+                        color="green"
+                        url="/account/posts"
+                    />
+                    <RouterLinkButton
+                        @click="open = !open"
                         class="w-full text-gray-100 text-center text-lg mt-4"
                         btnText="Close"
                         color="red"

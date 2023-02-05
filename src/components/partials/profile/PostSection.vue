@@ -49,7 +49,7 @@ import RouterLinkButton from '../../global/RouterLinkButton.vue'
             </p>
             <div class="mt-2 flex items-center justify-end">
               <router-link 
-                    to="" 
+                    to="/account/edit-post" 
                     class="
                           bg-blue-500
                           hover:bg-blue-700

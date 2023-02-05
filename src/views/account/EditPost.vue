@@ -2,36 +2,25 @@
     import { ref } from 'vue'
     import CroppedImage from '../../components/global/CroppedImage.vue'
     import TextInput from '../../components/global/TextInput.vue'
-    import DisplayCropperButton from '../../components/global/DisplayCropperButton.vue'
     import TextArea from '../../components/global/TextArea.vue'
     import CropperModal from '../../components/global/CropperModal.vue'
     import SubmitFormButton from '../../components/global/SubmitFormButton.vue'
-    
+    import DisplayCropperButton from '../../components/global/DisplayCropperButton.vue'
 
     let showModal = ref(false)
-    let firstName = ref(null)
-    let lastName = ref(null)
-    let location = ref(null)
     let image = ref(null)
 
-    // onMounted(() => {
-    //     firstName.value = userStore.firstName || null
-    //     lastName.value = userStore.lastName || null
-    //     location.value = userStore.location || null
-    //     description.value = userStore.description || null
-    //     image.value = userStore.image || null
-    // })
-
     const setCroppedImageData = (data) => {
-        // imageData = data
         image.value = data.imageUrl
     }
 
+    
 </script>
 
 <template>
-    <div id="EditProfile" class="container max-w-4xl mx-auto pt-20 pb-20 px-6">
-        <div class="text-gray-900 text-xl">Edit Profile</div>
+    <div id="EditPost" class="container max-w-4xl mx-auto pt-20 pb-20 px-6">
+
+        <div class="text-gray-900 text-xl">Edit Post</div>
         <div class="bg-green-500 w-full h-1"></div>
 
         <CropperModal
@@ -45,28 +34,17 @@
         <div class="flex flex-wrap mt-4 mb-6">
             <div class="w-full md:w-1/2 px-3">
                 <TextInput 
-                    label="First Name"
-                    placeholder="John"
-                    v-model:input="firstName"
-                    inputType="text"
-                />
-            </div>
-            <div class="w-full md:w-1/2 px-3">
-                <TextInput 
-                    label="Last Name"
-                    placeholder="Doe"
-                    v-model:input="lastName"
-                    inputType="text"
-                />
-            </div>
-        </div>
+                    label="Title"
+                    placeholder="Awesome Concert!!!"
 
-        <div class="flex flex-wrap mt-4 mb-6">
+                    inputType="text"
+
+                />
+            </div>
             <div class="w-full md:w-1/2 px-3">
                 <TextInput 
                     label="Location"
                     placeholder="Madrid, ES"
-                    v-model:input="location"
                     inputType="text"
                 />
             </div>
@@ -75,15 +53,15 @@
         <div class="flex flex-wrap mt-4 mb-6">
             <div class="w-full md:w-1/2 px-3">
                 <DisplayCropperButton
-                    label="Profile Image"
-                    btnText="Update Profile Image"
+                    label="Post Image"
+                    btnText="Update Post Image"
                     @showModal="showModal = true"
                 />
             </div>
         </div>
 
         <div class="flex flex-wrap mt-4 mb-6">
-            <div class="w-full md:w-1/2 px-3">
+            <div class="w-full px-3">
                 <CroppedImage
                     label="Cropped Image"
                     :image="image"
@@ -96,7 +74,6 @@
                 <TextArea
                     label="Description"
                     placeholder="Please enter some information here!!!"
-                    v-model:description="description"
                 />
             </div>
         </div>
@@ -104,13 +81,12 @@
         <div class="flex flex-wrap mt-8 mb-6">
             <div class="w-full px-3">
                 <SubmitFormButton
-                    btnText="Update Profile"
-                    @click="updateUser"
+                    btnText="Update Post"
                 />
             </div>
         </div>
-    
-    
+        
     </div>
 </template>
+
 

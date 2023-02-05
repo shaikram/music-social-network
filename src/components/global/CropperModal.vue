@@ -1,6 +1,49 @@
 <script setup>
-    // import { Cropper } from 'vue-advanced-cropper'
-    // import 'vue-advanced-cropper/dist/style.css';
+    import { ref, defineEmits, defineProps, toRefs } from 'vue';
+    import { Cropper } from 'vue-advanced-cropper'
+    import 'vue-advanced-cropper/dist/style.css';
+
+    const emit = defineEmits(['croppedImageData', 'showModal'])
+
+    const props = defineProps({
+        minAspectRatioProp: Object,
+        maxAspectRatioProp: Object
+    })
+
+    const { minAspectRatioProp, maxAspectRatioProp } = toRefs(props)
+
+    let fileInput = ref(null)
+    let cropper = ref(null)
+    let uploadedImage = ref(null)
+    let croppedImageData = {
+        file: null,
+        imageUrl: null,
+        height: null,
+        width: null,
+        left: null,
+        top: null,
+    }
+
+    const getUploadedImage = (e) => {
+        const file = e.target.files[0]
+        uploadedImage.value = URL.createObjectURL(file)
+        console.log(uploadedImage.value)
+    }
+
+    const crop = () => {
+        const { coordinates, canvas } = cropper.value.getResult()
+
+        croppedImageData.file = fileInput.value.files[0]
+        croppedImageData.imageUrl = canvas.toDataURL()
+        croppedImageData.height = coordinates.height
+        croppedImageData.width = coordinates.width
+        croppedImageData.left = coordinates.left
+        croppedImageData.top = coordinates.top
+
+        emit('croppedImageData', croppedImageData)
+        emit('showModal', false)
+    }
+
 </script>
 <template>
     <div class="relative z-10">
@@ -74,29 +117,31 @@
                                             type="file"
                                             id="image"
                                             ref="fileInput"
+                                            @change="getUploadedImage"
                                            
                                         >
                                     </div>
                                 </div>
 
-    
-                            </div>
-                        </div>
+                                <div class="flex justify-center max-w-2xl">
+                                    <div id="app">
+                                        <Cropper
+                                            ref="cropper"
+                                            class="cropper"
+                                            :src="uploadedImage"
+                                            :stencil-props="{
+                                                minAspectRatio: minAspectRatioProp.width/minAspectRatioProp.height,
+                                                maxAspectRatio: maxAspectRatioProp.width/maxAspectRatioProp.height
+                                            }"
+                                            @change="change"
+                                        />
+                                    </div>
+                                </div>
 
-                        <!-- <div class="flex justify-center max-w-2xl">
-                            <Cropper
-                                class="cropper"
-                                :src="https://images.pexels.com/photos/226746/pexels-photo-226746.jpeg"
-                                :stencil-props="{
-                                    aspectRatio: 10/12
-                                }"
-                                @change="change"
-                            />
-                        </div> -->
-
-                        <div class="pb-3 flex flex-row-reverse pt-4">
+                                <div class="pb-3 flex flex-row-reverse pt-4">
                                     <button
-
+                                        v-if="uploadedImage"
+                                        @click="crop"
                                         type="button"
                                         class="
                                             inline-flex
@@ -156,6 +201,9 @@
                                     </button>
                                 </div>
 
+    
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -163,4 +211,11 @@
         
     </div>              
 </template>
+
+<style lang="scss">
+.cropper {
+  height: 600px;
+  background: #DDD;
+}
+</style>
 
