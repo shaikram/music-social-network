@@ -1,3 +1,46 @@
+<script setup>
+    import { ref } from 'vue';
+    import axios from 'axios'
+    import { useUserStore } from '../store/user-store'
+    import TextInput from '../components/global/TextInput.vue'
+
+
+    const userStore = useUserStore()
+
+    let errors = ref([])
+    let email = ref(null)
+    let password = ref(null)
+
+    const login = async () => {
+
+        errors.value = []
+
+        try {
+
+            let res = await axios.post('http://127.0.0.1:8000/api/login', {
+                email: email.value,
+                password: password.value,
+            })
+            console.log(res)
+            // axios.defaults.headers.common['Authorization'] = 'Bearer ' + res.data.token
+            userStore.setUserDetails(res)
+            
+            // await profileStore.fetchProfileById(userStore.id)
+            // await songStore.fetchSongsByUserId(userStore.id)
+            // await postStore.fetchPostsByUserId(userStore.id)
+            // await videoStore.fetchVideosByUserId(userStore.id)
+
+            // router.push('/account/profile/' + userStore.id)
+
+        } catch (err) {
+            errors.value = err.response.data.errors
+        }
+
+    }
+
+
+</script>
+
 <template>
     <div id="Register">
         <div class="w-full p-6 flex justify-center items-center">
@@ -12,6 +55,7 @@
                             placeholder="john.doe@m.com"
                             v-model:input="email"
                             inputType="text"
+                            :error="errors.email ? errors.email[0] : ''"
                         />
                     </div>
 
@@ -22,6 +66,7 @@
                             placeholder="password123?"
                             v-model:input="password"
                             inputType="password"
+                            :error="errors.password ? errors.password[0] : ''"
                         />
                     </div>
 
@@ -37,8 +82,9 @@
                             tracking-wide
                             "
                         type="submit"
+                        @click="login"
                     >
-                        Register
+                        Log In
                     </button>
                 </div>
                 <p class="text-center text-md text-gray-900">
@@ -51,11 +97,3 @@
         </div>
     </div>
 </template>
-<script setup>
-    import { ref } from 'vue';
-    import TextInput from '../components/global/TextInput.vue'
-
-
-    let email = ref(null)
-    let password = ref(null)
-</script>

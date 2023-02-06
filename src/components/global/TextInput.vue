@@ -9,7 +9,7 @@
                 mb-2 
                 text-gray-900
                 "
-                :class="[labelColor ? 'text-gray-900' : 'text-gray-100']"
+                :class="[labelColor ? 'text-white-900' : 'text-white-100']"
         >
             {{ label }}
         </label>

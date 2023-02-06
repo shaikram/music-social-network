@@ -14,14 +14,6 @@
     let location = ref(null)
     let image = ref(null)
 
-    // onMounted(() => {
-    //     firstName.value = userStore.firstName || null
-    //     lastName.value = userStore.lastName || null
-    //     location.value = userStore.location || null
-    //     description.value = userStore.description || null
-    //     image.value = userStore.image || null
-    // })
-
     const setCroppedImageData = (data) => {
         // imageData = data
         image.value = data.imageUrl
