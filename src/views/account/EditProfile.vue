@@ -1,22 +1,63 @@
 <script setup>
-    import { ref } from 'vue'
+    import { onMounted, ref } from 'vue'
+    import { useRouter } from 'vue-router'
+    import { useUserStore } from '../../store/user-store' 
     import CroppedImage from '../../components/global/CroppedImage.vue'
     import TextInput from '../../components/global/TextInput.vue'
     import DisplayCropperButton from '../../components/global/DisplayCropperButton.vue'
     import TextArea from '../../components/global/TextArea.vue'
     import CropperModal from '../../components/global/CropperModal.vue'
     import SubmitFormButton from '../../components/global/SubmitFormButton.vue'
+    import axios from 'axios'
     
+
+    const router = useRouter()
+    const userStore = useUserStore()
 
     let showModal = ref(false)
     let firstName = ref(null)
     let lastName = ref(null)
     let location = ref(null)
+    let description = ref(null)
+    // let imageData = null
     let image = ref(null)
+    let errors = ref([])
+
+    onMounted(() => {
+        firstName.value = userStore.firstName || null
+        lastName.value = userStore.lastName || null
+        location.value = userStore.location || null
+        description.value = userStore.description || null
+        image.value = userStore.image || null
+    })
 
     const setCroppedImageData = (data) => {
         // imageData = data
         image.value = data.imageUrl
+    }
+
+    const updateUser = async () => {
+
+        errors.value = []
+
+        let data = new FormData();
+
+        data.append('first_name', firstName.value || '')
+        data.append('last_name', lastName.value || '')
+        data.append('location', location.value || '')
+        data.append('description', description.value || '')
+
+        try {
+            await axios.post('users/' + userStore.id + '?_method=PUT', data)
+
+            await userStore.fetchUser()
+
+            router.push('/account/profile/' + userStore.id)
+            
+        } catch (err) {
+            errors.value = err.response.data.errors;
+        }
+
     }
 
 </script>
@@ -41,6 +82,7 @@
                     placeholder="John"
                     v-model:input="firstName"
                     inputType="text"
+                    :error="errors.first_name ? errors.first_name[0] : ''"
                 />
             </div>
             <div class="w-full md:w-1/2 px-3">
@@ -49,6 +91,7 @@
                     placeholder="Doe"
                     v-model:input="lastName"
                     inputType="text"
+                    :error="errors.last_name ? errors.last_name[0] : ''"
                 />
             </div>
         </div>
